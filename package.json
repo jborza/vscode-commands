@@ -19,8 +19,12 @@
   "contributes": {
     "commands": [
       {
-            "command": "markdown-title.textToFilename", 
-            "title": "Transform text to note filename" 
+            "command": "markdown-title.textToFilename",
+            "title": "Transform text to note filename"
+        },
+        {
+            "command": "markdown-title.toList",
+            "title": "Convert selection to unordered list"
         }
     ],
     "keybindings": [
@@ -28,6 +32,12 @@
             "command": "markdown-title.textToFilename",
             "key": "ctrl+shift+t",
             "mac": "cmd+shift+t",
+            "when": "editorTextFocus"
+        },
+        {
+            "command": "markdown-title.toList",
+            "key": "ctrl+shift+l",
+            "mac": "cmd+shift+l",
             "when": "editorTextFocus"
         }
     ]
