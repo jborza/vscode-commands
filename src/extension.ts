@@ -16,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
 			return;
 		}
 		const selection = editor.selection;
-		
+
 		const originalText = editor.document.getText(selection);
 		if(!originalText){
 			vscode.window.showInformationMessage('No text selected');
@@ -28,7 +28,26 @@ export function activate(context: vscode.ExtensionContext) {
         });
 	});
 
+	const toList = vscode.commands.registerCommand('markdown-title.toList', () => {
+		const editor = vscode.window.activeTextEditor;
+		if(!editor){
+			return;
+		}
+		const selection = editor.selection;
+
+		const originalText = editor.document.getText(selection);
+		if(!originalText){
+			vscode.window.showInformationMessage('No text selected');
+			return;
+		}
+		const transformedText = transformToList(originalText);
+		editor.edit(editBuilder => {
+            editBuilder.replace(selection, transformedText);
+        });
+	});
+
 	context.subscriptions.push(textToTitle);
+	context.subscriptions.push(toList);
 }
 
 
@@ -52,6 +71,17 @@ function transformTextToTitle(input: string): string {
     text = text.replace(/[^a-z0-9]+/g, '-');
 
     return text;
+}
+
+function transformToList(input: string): string {
+    // Split by lines, trim leading whitespace from each line, and add "- " prefix
+    const lines = input.split('\n');
+    const transformed = lines
+        .map(line => line.trimLeft())  // Remove leading whitespace
+        .filter(line => line.length > 0)  // Skip empty lines
+        .map(line => `- ${line}`)  // Add markdown bullet
+        .join('\n');
+    return transformed;
 }
 
 // This method is called when your extension is deactivated
