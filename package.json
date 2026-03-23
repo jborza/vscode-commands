@@ -25,6 +25,10 @@
         {
             "command": "markdown-title.toList",
             "title": "Convert selection to unordered list"
+        },
+        {
+            "command": "markdown-title.toCommaList",
+            "title": "Convert selection to comma separated list"
         }
     ],
     "keybindings": [
@@ -38,6 +42,12 @@
             "command": "markdown-title.toList",
             "key": "ctrl+shift+l",
             "mac": "cmd+shift+l",
+            "when": "editorTextFocus"
+        },
+        {
+            "command": "markdown-title.toCommaList",
+            "key": "ctrl+shift+k",
+            "mac": "cmd+shift+k",
             "when": "editorTextFocus"
         }
     ]

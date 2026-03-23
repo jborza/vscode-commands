@@ -46,8 +46,27 @@ export function activate(context: vscode.ExtensionContext) {
         });
 	});
 
+	const toCommaList = vscode.commands.registerCommand('markdown-title.toCommaList', () => {
+		const editor = vscode.window.activeTextEditor;
+		if(!editor){
+			return;
+		}
+		const selection = editor.selection;
+
+		const originalText = editor.document.getText(selection);
+		if(!originalText){
+			vscode.window.showInformationMessage('No text selected');
+			return;
+		}
+		const transformedText = transformToCommaList(originalText);
+		editor.edit(editBuilder => {
+            editBuilder.replace(selection, transformedText);
+        });
+	});
+
 	context.subscriptions.push(textToTitle);
 	context.subscriptions.push(toList);
+	context.subscriptions.push(toCommaList);
 }
 
 
@@ -80,6 +99,17 @@ function transformToList(input: string): string {
         .map(line => line.trimLeft())  // Remove leading whitespace
         .filter(line => line.length > 0)  // Skip empty lines
         .map(line => `- ${line}`)  // Add markdown bullet
+        .join('\n');
+    return transformed;
+}
+
+function transformToCommaList(input: string): string {
+    // Split by lines, trim whitespace, and add comma to each non-empty line
+    const lines = input.split('\n');
+    const transformed = lines
+        .map(line => line.trim())  // Remove leading/trailing whitespace
+        .filter(line => line.length > 0)  // Skip empty lines
+        .map(line => `${line},`)  // Add comma
         .join('\n');
     return transformed;
 }
