@@ -10,7 +10,7 @@
   "categories": [
     "Other"
   ],
-    "repository":  {
+  "repository": {
     "type": "git",
     "url": "https://github.com/jborza/vscode-commands.git"
   },
@@ -19,42 +19,41 @@
   "contributes": {
     "commands": [
       {
-            "command": "markdown-title.textToFilename",
-            "title": "Transform text to note filename"
-        },
-        {
-            "command": "markdown-title.toList",
-            "title": "Convert selection to unordered list"
-        },
-        {
-            "command": "markdown-title.toCommaList",
-            "title": "Convert selection to comma separated list"
-        }
-        ,
-        {
-          "command": "markdown-title.sqlToMarkdown",
-          "title": "Convert SQL (TSV) results to Markdown table"
-        }
+        "command": "markdown-title.textToFilename",
+        "title": "Transform text to note filename"
+      },
+      {
+        "command": "markdown-title.toList",
+        "title": "Convert selection to unordered list"
+      },
+      {
+        "command": "markdown-title.toCommaList",
+        "title": "Convert selection to comma separated list"
+      },
+      {
+        "command": "markdown-title.sqlToMarkdown",
+        "title": "Convert SQL (TSV) results to Markdown table"
+      }
     ],
     "keybindings": [
-        {
-            "command": "markdown-title.textToFilename",
-            "key": "ctrl+shift+t",
-            "mac": "cmd+shift+t",
-            "when": "editorTextFocus"
-        },
-        {
-            "command": "markdown-title.toList",
-            "key": "ctrl+shift+l",
-            "mac": "cmd+shift+l",
-            "when": "editorTextFocus"
-        },
-        {
-            "command": "markdown-title.toCommaList",
-            "key": "ctrl+shift+k",
-            "mac": "cmd+shift+k",
-            "when": "editorTextFocus"
-        }
+      {
+        "command": "markdown-title.textToFilename",
+        "key": "ctrl+shift+t",
+        "mac": "cmd+shift+t",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "markdown-title.toList",
+        "key": "ctrl+shift+l",
+        "mac": "cmd+shift+l",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "markdown-title.toCommaList",
+        "key": "ctrl+shift+k",
+        "mac": "cmd+shift+k",
+        "when": "editorTextFocus"
+      }
     ]
   },
   "scripts": {
@@ -63,16 +62,18 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "package:vsix": "npm run compile && npx vsce package"
   },
   "devDependencies": {
-    "@types/vscode": "^1.108.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "typescript-eslint": "^8.52.0",
+    "@types/vscode": "^1.108.1",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
     "eslint": "^9.39.2",
     "typescript": "^5.9.3",
-    "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "typescript-eslint": "^8.52.0",
+    "vsce": "^2.15.0"
   }
 }

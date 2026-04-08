@@ -38,6 +38,22 @@ npm run compile
 vsce package 
 ```
 
+### One-command packaging (recommended)
+
+You can build and package the extension with a single npm script. First install `vsce` as a dev dependency so `npx` can use the local binary:
+
+```bash
+npm install --save-dev vsce
+```
+
+Then run the combined script (already provided in `package.json`):
+
+```bash
+npm run package:vsix
+```
+
+This runs the TypeScript compile step and then `npx vsce package`, producing a `.vsix` file in the workspace root.
+
 ### Alternatively, install from VS Code:
 
 1. Press Ctrl+Shift+P
