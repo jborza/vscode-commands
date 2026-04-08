@@ -64,9 +64,28 @@ export function activate(context: vscode.ExtensionContext) {
         });
 	});
 
+	const sqlToMarkdown = vscode.commands.registerCommand('markdown-title.sqlToMarkdown', () => {
+		const editor = vscode.window.activeTextEditor;
+		if(!editor){
+			return;
+		}
+		const selection = editor.selection;
+
+		const originalText = editor.document.getText(selection);
+		if(!originalText){
+			vscode.window.showInformationMessage('No text selected');
+			return;
+		}
+		const transformedText = transformSqlToMarkdown(originalText);
+		editor.edit(editBuilder => {
+			editBuilder.replace(selection, transformedText);
+		});
+	});
+
 	context.subscriptions.push(textToTitle);
 	context.subscriptions.push(toList);
 	context.subscriptions.push(toCommaList);
+	context.subscriptions.push(sqlToMarkdown);
 }
 
 
@@ -112,6 +131,50 @@ function transformToCommaList(input: string): string {
         .map(line => `${line},`)  // Add comma
         .join('\n');
     return transformed;
+}
+
+function transformSqlToMarkdown(input: string): string {
+	const normalized = input.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+	const rawLines = normalized.split('\n');
+	// Keep only lines that are not entirely whitespace
+	const lines = rawLines.filter(l => /\S/.test(l));
+	if(lines.length === 0) return '';
+
+	const splitLine = (line: string) => {
+		const parts = line.split('\t');
+		// Remove a single leading empty cell when clipboard includes a leading tab
+		if(parts.length > 1 && parts[0] === '') parts.shift();
+		if(parts.length > 1 && parts[parts.length-1] === '') parts.pop();
+		return parts;
+	};
+
+	const headerFields = splitLine(lines[0]);
+	const colCount = headerFields.length;
+
+	const rows: string[][] = [];
+	for(let i = 1; i < lines.length; i++){
+		const parts = splitLine(lines[i]);
+		// pad or trim to colCount
+		const row = new Array(colCount).fill('');
+		for(let c = 0; c < Math.min(parts.length, colCount); c++){
+			row[c] = parts[c];
+		}
+		rows.push(row);
+	}
+
+	const escapeCell = (s: string) => {
+		if(s === null || s === undefined) return '';
+		// preserve NULL literal exactly
+		if(s === 'NULL') return 'NULL';
+		// Escape pipe characters to avoid breaking the table
+		return s.replace(/\|/g, '&#124;');
+	};
+
+	const headerRow = '| ' + headerFields.map(h => escapeCell(h)).join(' | ') + ' |';
+	const separatorRow = '| ' + headerFields.map(() => '---').join(' | ') + ' |';
+	const dataRows = rows.map(r => '| ' + r.map(cell => escapeCell(cell)).join(' | ') + ' |');
+
+	return [headerRow, separatorRow, ...dataRows].join('\n');
 }
 
 // This method is called when your extension is deactivated

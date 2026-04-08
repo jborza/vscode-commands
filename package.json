@@ -1,6 +1,6 @@
 {
-  "name": "transform-text-to-filename",
-  "displayName": "Transform text to filename",
+  "name": "vscode-transform-commands",
+  "displayName": "Text Transformation Commands for Markdown Editing",
   "publisher": "borzajuraj",
   "description": "",
   "version": "0.0.1",
@@ -29,6 +29,11 @@
         {
             "command": "markdown-title.toCommaList",
             "title": "Convert selection to comma separated list"
+        }
+        ,
+        {
+          "command": "markdown-title.sqlToMarkdown",
+          "title": "Convert SQL (TSV) results to Markdown table"
         }
     ],
     "keybindings": [
