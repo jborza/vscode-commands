@@ -10,9 +10,9 @@
   "categories": [
     "Other"
   ],
-  "repository":  {
+    "repository":  {
     "type": "git",
-    "url": "https://github.com/jborza/markdown-title.git"
+    "url": "https://github.com/jborza/vscode-commands.git"
   },
   "activationEvents": [],
   "main": "./out/extension.js",
