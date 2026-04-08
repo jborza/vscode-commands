@@ -29,37 +29,6 @@ vsce package
 
 ```bash
 code --install-extension vscode-transform-commands-0.0.1.vsix
-
-## Convert SQL (TSV) results to Markdown table
-
-Select a block of tab-separated query results (headers on the first line) and run the `Convert SQL (TSV) results to Markdown table` command.
-
-Input example (tabs between columns):
-
-```
-	ID	Version	PersonPartyID	JsonData
-	10877	0x0000000001223096	148173	{"workplace":"Praha"}
-	10878	0x0000000001223097	60776	{"workplace":"Není sjednáno"}
-```
-
-Output example:
-
-```markdown
-| ID | Version | PersonPartyID | JsonData |
-| --- | --- | --- | --- |
-| 10877 | 0x0000000001223096 | 148173 | {"workplace":"Praha"} |
-| 10878 | 0x0000000001223097 | 60776 | {"workplace":"Není sjednáno"} |
-```
-
-Key features:
-
-- Preserves `NULL` literal values as-is
-- Leaves JSON and other data values unmodified
-- Handles standard tab-separated input produced by SQL Management Studio
-- Pads rows with empty cells when row lengths are inconsistent
-
-If you'd like a default keybinding for this command, tell me which shortcut you prefer.
-
 ```
 
 ### Build if vsce is installed:
