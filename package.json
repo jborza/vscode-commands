@@ -14,7 +14,12 @@
     "type": "git",
     "url": "https://github.com/jborza/vscode-commands.git"
   },
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:markdown-title.textToFilename",
+    "onCommand:markdown-title.toList",
+    "onCommand:markdown-title.toCommaList",
+    "onCommand:markdown-title.sqlToMarkdown"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [

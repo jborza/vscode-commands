@@ -59,3 +59,7 @@ This runs the TypeScript compile step and then `npx vsce package`, producing a `
 1. Press Ctrl+Shift+P
 2. Run "Extensions: Install from VSIX..."
 3. Select the generated `.vsix` file
+
+## Important
+
+- After editing `package.json` (for example adding `activationEvents`) or rebuilding the extension, reload or restart VS Code so the updated activation information is picked up. Use `Developer: Reload Window` from the Command Palette or fully restart the application.
