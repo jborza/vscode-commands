@@ -82,10 +82,29 @@ export function activate(context: vscode.ExtensionContext) {
 		});
 	});
 
+	const newlinesToSpace = vscode.commands.registerCommand('markdown-title.newlinesToSpace', () => {
+		const editor = vscode.window.activeTextEditor;
+		if(!editor){
+			return;
+		}
+		const selection = editor.selection;
+
+		const originalText = editor.document.getText(selection);
+		if(!originalText){
+			vscode.window.showInformationMessage('No text selected');
+			return;
+		}
+		const transformedText = transformNewlinesToSpace(originalText);
+		editor.edit(editBuilder => {
+			editBuilder.replace(selection, transformedText);
+		});
+	});
+
 	context.subscriptions.push(textToTitle);
 	context.subscriptions.push(toList);
 	context.subscriptions.push(toCommaList);
 	context.subscriptions.push(sqlToMarkdown);
+	context.subscriptions.push(newlinesToSpace);
 }
 
 
@@ -175,6 +194,14 @@ function transformSqlToMarkdown(input: string): string {
 	const dataRows = rows.map(r => '| ' + r.map(cell => escapeCell(cell)).join(' | ') + ' |');
 
 	return [headerRow, separatorRow, ...dataRows].join('\n');
+}
+
+function transformNewlinesToSpace(input: string): string {
+	// Remove all tabs, replace newlines with spaces, then collapse multiple spaces to one
+	let text = input.replace(/\t/g, '');          // Remove tabs
+	text = text.replace(/\r?\n/g, ' ');          // Replace newlines with spaces
+	text = text.replace(/ +/g, ' ');             // Collapse multiple spaces to one
+	return text.trim();                          // Trim leading/trailing space
 }
 
 // This method is called when your extension is deactivated

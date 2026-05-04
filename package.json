@@ -18,7 +18,8 @@
     "onCommand:markdown-title.textToFilename",
     "onCommand:markdown-title.toList",
     "onCommand:markdown-title.toCommaList",
-    "onCommand:markdown-title.sqlToMarkdown"
+    "onCommand:markdown-title.sqlToMarkdown",
+    "onCommand:markdown-title.newlinesToSpace"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -38,6 +39,10 @@
       {
         "command": "markdown-title.sqlToMarkdown",
         "title": "Convert SQL (TSV) results to Markdown table"
+      },
+      {
+        "command": "markdown-title.newlinesToSpace",
+        "title": "Convert newlines to space"
       }
     ],
     "keybindings": [
